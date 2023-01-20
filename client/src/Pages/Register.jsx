@@ -8,10 +8,12 @@ function Register() {
     const [username,setUsername] = useState("")
     const [password,setPassword] = useState("")
     const [confirmPassword,setConfirmPassword] = useState("")
+    const [loading,setLoading] = useState(false)
     const navigate = useNavigate()
 
     const sendToServer = async(data)=>{
         try {
+            setLoading(true)
             const response = await fetch("https://uni-ghana-server.onrender.com/register",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
@@ -26,9 +28,11 @@ function Register() {
             }else if(result.msg==="Username already exist"){
                 alert(result.msg)
             }
+            setLoading(false)
             // console.log(result)
         } catch (error) {
             console.log(error.message)
+            setLoading(false)
         }
     }
 
@@ -71,13 +75,16 @@ function Register() {
                     </div>
                     <button onClick={(e)=>{
                         e.preventDefault()
-                        if(confirmPassword===password){
+                        if(confirmPassword===password && email && username){
                             const data ={email,username,password}
                             sendToServer(data)
-                        }else{
+                        }else if(!email || !username){
+                            alert("Please provide your information")
+                        }
+                        else{
                             alert("Passwords do not match")
                         }
-                    }} className='mt-10 block bg-black md:w-[80%] w-full text-white text-sm font-mono p-3 hover:bg-gray-700'>Register</button>
+                    }} className='mt-10 block bg-black md:w-[80%] w-full text-white text-sm font-mono p-3 hover:bg-gray-700'>{loading?"Loading...":"Register"}</button>
                 </form>
             </div>
         </div>

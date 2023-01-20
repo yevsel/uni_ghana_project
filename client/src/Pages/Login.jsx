@@ -6,9 +6,11 @@ function Login() {
 
     const [username,setUsername] = useState("")
     const [password,setPassword] = useState("")
+    const [loading,setLoading] = useState(false)
 
     const sendToServer = async(data)=>{
         try {
+            setLoading(true)
             const response = await fetch("https://uni-ghana-server.onrender.com/login",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
@@ -16,8 +18,10 @@ function Login() {
             })
             const result = await response.json()
             alert(result.msg)
+            setLoading(false)
         } catch (error) {
             console.log(error.message)
+            setLoading(false)
         }
     }
 
@@ -53,9 +57,11 @@ function Login() {
                 </div>
                 <button onClick={(e)=>{
                     e.preventDefault()
-                    const data={username,password}
-                    sendToServer(data)
-                }} className='mt-10 block bg-black md:w-[80%] w-full text-white text-sm font-mono p-3 hover:bg-gray-700'>Sign In</button>
+                    if(username && password){
+                        const data={username,password}
+                        sendToServer(data)
+                    }
+                }} className='mt-10 block bg-black md:w-[80%] w-full text-white text-sm font-mono p-3 hover:bg-gray-700'>{loading?"Loading...":"Sign In"}</button>
             </form>
             </div>
         </div>
