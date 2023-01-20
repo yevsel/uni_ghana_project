@@ -10,7 +10,7 @@ function Register() {
 
     const sendToServer = async(data)=>{
         try {
-            const response = await fetch("http://127.0.0.1:4500/register",{
+            const response = await fetch("https://uni-ghana-server.onrender.com/register",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify(data)
@@ -29,7 +29,7 @@ function Register() {
     exit={{opacity:0}}
      className='flex '>
         <div className='flex-1 flex items-center justify-center register-intro p-10 md:p-0'>
-            <div>
+            <div className='p-5'>
                 <div>
                     <h1 className='text-4xl'>Registration is very simple</h1>
                     <h1 className='text-lg text-gray-500'>Follow the steps to complete😉</h1>
