@@ -15,7 +15,7 @@ function Login() {
                 body:JSON.stringify(data)
             })
             const result = await response.json()
-            console.log(result)
+            alert(result.msg)
         } catch (error) {
             console.log(error.message)
         }

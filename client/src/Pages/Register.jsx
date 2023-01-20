@@ -1,12 +1,14 @@
 import React,{useState} from 'react'
 import { motion } from 'framer-motion'
 import registerImage from "../Assets/Login.jpg"
+import { useNavigate } from 'react-router-dom'
 function Register() {
 
     const [email,setEmail] = useState("")
     const [username,setUsername] = useState("")
     const [password,setPassword] = useState("")
     const [confirmPassword,setConfirmPassword] = useState("")
+    const navigate = useNavigate()
 
     const sendToServer = async(data)=>{
         try {
@@ -16,7 +18,15 @@ function Register() {
                 body:JSON.stringify(data)
             })
             const result = await response.json()
-            console.log(result)
+            if (result.msg==="User created successfully"){
+                alert("Congratulations Account Successfully Created")
+                setTimeout(()=>{
+                    navigate("/")
+                },1000)
+            }else if(result.msg==="Username already exist"){
+                alert(result.msg)
+            }
+            // console.log(result)
         } catch (error) {
             console.log(error.message)
         }
