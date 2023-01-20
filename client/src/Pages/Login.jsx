@@ -19,6 +19,8 @@ function Login() {
             const result = await response.json()
             alert(result.msg)
             setLoading(false)
+            setUsername("")
+            setPassword("")
         } catch (error) {
             console.log(error.message)
             setLoading(false)
