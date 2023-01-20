@@ -1,8 +1,26 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { motion } from 'framer-motion'
 import loginImage from "../Assets/Register.jpg"
 import { Link } from 'react-router-dom'
 function Login() {
+
+    const [username,setUsername] = useState("")
+    const [password,setPassword] = useState("")
+
+    const sendToServer = async(data)=>{
+        try {
+            const response = await fetch("http://127.0.0.1:4500/login",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify(data)
+            })
+            const result = await response.json()
+            console.log(result)
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
   return (
     <motion.div
     initial={{transform:"translateX(100%)"}}
@@ -23,13 +41,21 @@ function Login() {
             <form action="" className='my-5'>
                 <div className=''>
                     <label htmlFor="username" className='font-mono'>Username</label>
-                    <input autoComplete={false} required={true} type="text" name="" className='md:w-[80%] w-full block p-2 border-2 border-black focus:outline-none' id="username" />
+                    <input onChange={(e)=>{
+                        setUsername(e.target.value)
+                    }} autoComplete={false} value={username} required={true} type="text" name="" className='md:w-[80%] w-full block p-2 border-2 border-black focus:outline-none' id="username" />
                 </div>
                 <div className='mt-10'>
                     <label htmlFor="password" className='font-mono'>Password</label>
-                    <input type="password" required={true} name="" className='md:w-[80%] w-full block p-2 border-2 border-black focus:outline-none' id="password" />
+                    <input onChange={(e)=>{
+                        setPassword(e.target.value)
+                    }} value={password} type="password" required={true} name="" className='md:w-[80%] w-full block p-2 border-2 border-black focus:outline-none' id="password" />
                 </div>
-                <button className='mt-10 block bg-black md:w-[80%] w-full text-white text-sm font-mono p-3 hover:bg-gray-700'>Sign In</button>
+                <button onClick={(e)=>{
+                    e.preventDefault()
+                    const data={username,password}
+                    sendToServer(data)
+                }} className='mt-10 block bg-black md:w-[80%] w-full text-white text-sm font-mono p-3 hover:bg-gray-700'>Sign In</button>
             </form>
             </div>
         </div>
